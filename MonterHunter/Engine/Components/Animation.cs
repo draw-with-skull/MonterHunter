@@ -34,19 +34,17 @@ namespace MonterHunter.Engine.Components
             _continuous = continuous;
             InitSourceRects(frameHeight);
         }
-
-        public float GetTimeLeft()
+        public bool IsContinuous()
         {
-            if (_continuous) {
-                return _frameTimeLeft/100000;
-            }
-            
-            return 0;
+            return _continuous;
         }
-
         public void Stop()
         {
             _active = false;
+        }
+        public float GetTimeLeft()
+        {
+            return _currentFrame * _frameTimeLeft;
         }
         public void Start()
         {

@@ -50,26 +50,26 @@ namespace MonterHunter.Engine.Managers
 
         public void Update(Action key,Vector2 direction)
         {
-            
+            if (_animations[_key].IsContinuous())
+            {
+                _animations[_key].Start();
+                if (_animations[_key].GetTimeLeft() > 0)
+                {
+                    _animations[_key].Update(CheckFaceingDirection(direction));
+                    return;
+                }
+            }
 
-            
             if (!_animations.ContainsKey(key))
             {
                 _animations[_key].Stop();
                 _animations[_key].Reset();
                 return;
             }
-            if (_animations[_key].GetTimeLeft() > 0)
-            {
-                _animations[_key].Start();
-                _animations[_key].Update(CheckFaceingDirection(direction));
-                return;
-            }
-            if (_key != key)
-            {
-                _animations[key].Start();
-                _animations[key].Update(CheckFaceingDirection(direction));
-            }
+            
+            _animations[key].Start();
+            _animations[key].Update(CheckFaceingDirection(direction));
+            
             _key = key;   
         }
         public void Draw(Vector2 position)
