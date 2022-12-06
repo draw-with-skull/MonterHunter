@@ -1,0 +1,90 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MonterHunter.Engine.Components
+{
+    public class Animation
+    {
+        private readonly Texture2D _texture;
+        private Rectangle _sourceRectangle;
+        private SpriteEffects spriteEffect;
+
+        private readonly int _frameCount;
+        private int _currentFrame;
+        private readonly float _frameTime;
+        private float _frameTimeLeft;
+        private bool _active = true;
+        private readonly bool _continuous;
+        private readonly int _frameWidth, _frameRow;
+        
+        public Animation(ref Texture2D texture, int frameCount, float frameTime,int frameWidth,int frameHeight, int frameRow,bool continuous)
+        {
+            _texture = texture;
+            _frameCount = frameCount;
+            _frameTime = frameTime;
+            _frameTimeLeft = frameTime;
+            _frameWidth = frameWidth;
+            _frameRow = frameRow;
+            _continuous = continuous;
+            InitSourceRects(frameHeight);
+        }
+
+        public float GetTimeLeft()
+        {
+            if (_continuous) {
+                return _frameTimeLeft/100000;
+            }
+            
+            return 0;
+        }
+
+        public void Stop()
+        {
+            _active = false;
+        }
+        public void Start()
+        {
+            _active = true;
+        }
+        public void Reset()
+        {
+            
+            _currentFrame = 0;
+            _frameTimeLeft = _frameTime;
+        }
+
+        public void Update(bool isFlipped)
+        {
+            if (!_active) return;
+
+            _frameTimeLeft -= Globals.time;
+            if (isFlipped) spriteEffect = SpriteEffects.FlipHorizontally; else spriteEffect = SpriteEffects.None;
+            if (_frameTimeLeft < 0)
+            {
+                _frameTimeLeft += _frameTime;
+                _currentFrame = ++_currentFrame % _frameCount;
+                _sourceRectangle.X = _frameWidth * _currentFrame;
+            }
+        }
+
+        public void Draw(Vector2 position)
+        {
+            if(_texture!= null)
+            {
+                Globals.spriteBatch.Draw(_texture, position, _sourceRectangle, Color.White,0.0f,Vector2.Zero,1.0f,spriteEffect,0.0f);
+            }
+        }
+        private void InitSourceRects(int frameHeight)
+        { 
+            _sourceRectangle.Width = _frameWidth;
+            _sourceRectangle.Height = frameHeight;
+            _sourceRectangle.Y = frameHeight * _frameRow;
+        }
+    }
+}
