@@ -53,7 +53,7 @@ namespace MonterHunter.Engine.Managers
             if (_animations[_key].IsContinuous())
             {
                 _animations[_key].Start();
-                if (_animations[_key].GetTimeLeft() > 0)
+                if (_animations[_key].FramesLeft() > 0)
                 {
                     _animations[_key].Update(CheckFaceingDirection(direction));
                     return;

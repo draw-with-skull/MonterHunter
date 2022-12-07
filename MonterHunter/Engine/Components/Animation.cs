@@ -42,9 +42,9 @@ namespace MonterHunter.Engine.Components
         {
             _active = false;
         }
-        public float GetTimeLeft()
+        public float FramesLeft()
         {
-            return _currentFrame * _frameTimeLeft;
+            return _currentFrame;
         }
         public void Start()
         {
