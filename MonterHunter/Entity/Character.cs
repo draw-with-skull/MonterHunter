@@ -28,24 +28,25 @@ namespace MonterHunter.Entity
 
             _animations.SetDefault(ref _texture, 75f, 32, 32);
             _animations.AddAnimation(Action.RELOAD, 8, 0, true);
-
+            _animations.AddAnimation(Action.WALK, 8, 3, false);
+            _animations.AddAnimation(Action.STANDING_FIRE, 16, 2, true);
             //_animations.AddAnimation(Action.RELOAD, new Animation(ref _texture, 8, 75f, 32, 32, 0,true));
             _animations.AddAnimation(Action.IDLE, new Animation(ref _texture, 8, 75f, 32, 32, 1,false));
-            //_animations.AddAnimation(Action.STANDING_FIRE, new Animation(ref _texture, 16, 75f, 32, 32, 2));
-            _animations.AddAnimation(Action.WALK, new Animation(ref _texture, 8, 75f, 32, 32, 3,false));
-            //_animations.AddAnimation(Action.WALKING_FIRE, new Animation(ref _texture, 16, 75f, 32, 32, 4));
-            //_animations.AddAnimation(Action.WALKING_RELOAD, new Animation(ref _texture, 8, 75f, 32, 32, 5));
+            //_animations.AddAnimation(Action.STANDING_FIRE, new Animation(ref _texture, 16, 75f, 32, 32, 2,true));
+            //_animations.AddAnimation(Action.WALK, new Animation(ref _texture, 8, 75f, 32, 32, 3,false));
+            _animations.AddAnimation(Action.WALKING_FIRE, new Animation(ref _texture, 16, 75f, 32, 32, 4,false));
+            //_animations.AddAnimation(Action.WALKING_RELOAD, new Animation(ref _texture, 8, 75f, 32, 32, 5,false));
         }
 
         public override void Update()
         {
-            
-           _animations.Update(InputManager.action,InputManager.direction);
+            _position = InputManager.direction * _speed * Globals.time/1000;
+
+            _animations.Update(InputManager.action,InputManager.direction,_position);
         }
         public override void Draw()
         { 
-            _position += InputManager.direction * _speed * Globals.time/1000;
-            _animations.Draw(_position);
+            _animations.Draw();
         }
         
     }

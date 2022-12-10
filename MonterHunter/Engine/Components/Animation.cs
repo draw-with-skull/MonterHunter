@@ -44,7 +44,7 @@ namespace MonterHunter.Engine.Components
         }
         public float FramesLeft()
         {
-            return _currentFrame;
+            return _currentFrame * _frameTimeLeft;
         }
         public void Start()
         {
@@ -52,7 +52,6 @@ namespace MonterHunter.Engine.Components
         }
         public void Reset()
         {
-            
             _currentFrame = 0;
             _frameTimeLeft = _frameTime;
         }

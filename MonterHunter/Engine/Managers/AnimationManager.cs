@@ -17,6 +17,7 @@ namespace MonterHunter.Engine.Managers
         private bool _flipState;
         private readonly Dictionary<Action,Animation> _animations;
         private Texture2D _texture;
+        private Vector2 _position;
         private float _frameTime=0;
         private int _frameHeight=0,_frameWidth=0;
     
@@ -48,16 +49,13 @@ namespace MonterHunter.Engine.Managers
             _frameWidth = frameWidth;
         }        
 
-        public void Update(Action key,Vector2 direction)
+        public void Update(Action key,Vector2 direction,Vector2 position)
         {
-            if (_animations[_key].IsContinuous())
+            if (_animations[_key].IsContinuous()&& _animations[_key].FramesLeft() > 0)
             {
-                _animations[_key].Start();
-                if (_animations[_key].FramesLeft() > 0)
-                {
-                    _animations[_key].Update(CheckFaceingDirection(direction));
+                    _animations[_key].Start();
+                    _animations[_key].Update(_flipState);
                     return;
-                }
             }
 
             if (!_animations.ContainsKey(key))
@@ -66,15 +64,16 @@ namespace MonterHunter.Engine.Managers
                 _animations[_key].Reset();
                 return;
             }
-            
+
+            _position += position;
             _animations[key].Start();
             _animations[key].Update(CheckFaceingDirection(direction));
             
             _key = key;   
         }
-        public void Draw(Vector2 position)
+        public void Draw()
         {
-            _animations[_key].Draw(position);
+            _animations[_key].Draw(_position);
         }
 
         private bool CheckFaceingDirection(Vector2 direction)

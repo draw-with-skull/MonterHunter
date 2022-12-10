@@ -22,10 +22,7 @@ namespace MonterHunter.Engine.Managers
                 if (keyboardState.IsKeyDown(Keys.A)) { action = Action.WALK; direction.X = -1; }
                 if (keyboardState.IsKeyDown(Keys.D)) { action = Action.WALK; direction.X = 1; }
                 if(keyboardState.IsKeyUp(Keys.A)&& keyboardState.IsKeyUp(Keys.D)) { direction = Vector2.Zero; }
-                if (keyboardState.IsKeyDown(Keys.R))
-                {
-                    if (action == Action.WALK) action = Action.WALKING_RELOAD; else action = Action.RELOAD;
-                }
+                if (keyboardState.IsKeyDown(Keys.R)){action = Action.RELOAD;}
             }
             else
             {
