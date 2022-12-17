@@ -21,7 +21,7 @@ namespace MonterHunter
             _graphics.PreferredBackBufferHeight = 900;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
+            gameManager = new();
         }
 
         protected override void Initialize()
@@ -30,8 +30,7 @@ namespace MonterHunter
             base.Initialize();
             Globals.InitContent(Content);
             renderTarget = new RenderTarget2D(Globals.graphicsDevice, 400, 255);
-            gameManager = new();
-            
+            gameManager.Init();
         }
 
         protected override void LoadContent()
@@ -56,14 +55,14 @@ namespace MonterHunter
         protected override void Draw(GameTime gameTime)
         {
             //drawing
-            Globals.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+            Globals.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             Globals.graphicsDevice.SetRenderTarget(renderTarget);
             Globals.graphicsDevice.Clear(Color.LightCoral);
             gameManager.Draw();
             Globals.spriteBatch.End();
             Globals.graphicsDevice.SetRenderTarget(null);
             //upscaleing
-            Globals.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+            Globals.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             Globals.spriteBatch.Draw(renderTarget, new Rectangle(0, 0, 1600, 900), Color.White);
             Globals.spriteBatch.End();
 

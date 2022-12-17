@@ -8,12 +8,17 @@ namespace MonterHunter.Engine.Components
 {
     public enum Action
     {
-        RELOAD,
         IDLE,
-        STANDING_FIRE,
         WALK,
-        WALKING_FIRE,
-        WALKING_RELOAD,
+        RUN,
+        EAT,
+        JUMP,
+        PUSH,
+        HURT,
+        DEATH,
+
+        LEFTCLICK,
+        RIGHTCLICK
     }
     public enum Option
     {
