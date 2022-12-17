@@ -12,13 +12,11 @@ namespace MonterHunter.Engine.Components.Gui
     internal class Button: BaseComponenetGui
     {
         private Texture2D _texture;
-        private Point _position;
         private Rectangle _destination;
         private bool _clicked;
 
         public Button(string path, Point position)
         {
-            _position = position;
             _texture = Globals.content.Load<Texture2D>(path);
             _clicked = false;
             if (_texture != null)
@@ -29,7 +27,6 @@ namespace MonterHunter.Engine.Components.Gui
 
         public Button(string path, int positionX,int positionY)
         {
-            _position = new Point(positionX, positionY);
             _texture = Globals.content.Load<Texture2D>(path);
             if(_texture != null)
             {
@@ -59,7 +56,7 @@ namespace MonterHunter.Engine.Components.Gui
             
         }
         
-        public static void CentreToTexture(ref Texture2D texture)
+        public static void CentreToTexture(Rectangle source)
         {
 
         }
