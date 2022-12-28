@@ -15,11 +15,10 @@ namespace MonterHunter.Engine
 {
     internal class GameManager
     {
-        //private Character ch;
+        
         
         public GameManager( )
         {
-            //ch = new("Artwork/SpriteSheet/character_48x48");
            
 
         }
@@ -29,7 +28,7 @@ namespace MonterHunter.Engine
         }
         public void Update()
         {
-            //ch.Update();
+            StateManager.GetState().Update();
         }
         
         public void Draw()

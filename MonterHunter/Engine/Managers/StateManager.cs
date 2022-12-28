@@ -19,7 +19,7 @@ namespace MonterHunter.Engine.Managers
 
         public static  void RemoveState()
         {
-            if(stateStack.Count < 1)
+            if(stateStack.Count <= 1)
             {
                 return;
             }

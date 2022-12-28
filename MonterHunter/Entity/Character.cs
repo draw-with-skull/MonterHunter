@@ -42,14 +42,14 @@ namespace MonterHunter.Entity
         public override void Update()
         {
             _speed = 100f;
-            if(InputManager.action== Action.RUN)
+            if(InputManager.GetAction()== Action.RUN)
             {
                 _speed = 250;
             }
 
             _position = InputManager.direction * _speed * Globals.time/1000;
 
-            _animations.Update(InputManager.action,InputManager.direction,_position);
+            _animations.Update(InputManager.GetAction(),InputManager.direction,_position);
         }
         public override void Draw()
         { 

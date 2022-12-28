@@ -4,20 +4,24 @@ using MonterHunter.Engine.Components;
 
 namespace MonterHunter.Engine.Managers
 {
-    public class InputManager
+    public static class InputManager
     {
         private static bool _gotAction;
-        public static Action action;
-        public static Option option;
+        private static Action action;
         public static Vector2 direction = Vector2.Zero;
         private static KeyboardState keyboardState;
         private static MouseState mouseState;
 
+        public static Action GetAction()
+        {
+            return action;
+        }
         public static void Update()
         {
             keyboardState = Keyboard.GetState();
-            mouseState = Mouse.GetState();
+            mouseState = Globals.mouseState;
             _gotAction = false;
+
             //move left right
             if (keyboardState.IsKeyDown(Keys.A)) { action = Action.WALK; direction.X = -1; _gotAction = true; }
             if (keyboardState.IsKeyDown(Keys.D)) { action = Action.WALK; direction.X = 1; _gotAction = true; }
@@ -28,17 +32,18 @@ namespace MonterHunter.Engine.Managers
             //actions
             if (keyboardState.IsKeyDown(Keys.Q)) { action = Action.EAT; _gotAction = true; return; }
 
-            //mouse actions
+            //mouse 
             if (mouseState.LeftButton == ButtonState.Pressed) { action = Action.LEFTCLICK; _gotAction = true; return; }
             if (mouseState.RightButton == ButtonState.Pressed) { action = Action.RIGHTCLICK; _gotAction = true; return; }
+
+            //generals
+            if (keyboardState.IsKeyDown(Keys.Escape)){ action = Action.ESCAPE; return; }
 
             if (!_gotAction)
             {
                 action = Action.IDLE;
                 direction = Vector2.Zero;
             }
-
-
         }
     }
 }

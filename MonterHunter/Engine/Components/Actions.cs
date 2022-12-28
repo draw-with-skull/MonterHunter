@@ -17,6 +17,8 @@ namespace MonterHunter.Engine.Components
         HURT,
         DEATH,
 
+        ESCAPE,
+
         LEFTCLICK,
         RIGHTCLICK
     }

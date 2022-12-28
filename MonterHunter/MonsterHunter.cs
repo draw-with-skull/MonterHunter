@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonterHunter.Engine;
+using MonterHunter.Engine.Components;
 using MonterHunter.Engine.Managers;
 
 namespace MonterHunter
@@ -11,7 +12,9 @@ namespace MonterHunter
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private GameManager gameManager;
+        private Rectangle _destination;
         public RenderTarget2D renderTarget;
+
 
 
         public MonsterHunter()
@@ -20,6 +23,7 @@ namespace MonterHunter
             _graphics.PreferredBackBufferWidth = 1600;
             _graphics.PreferredBackBufferHeight = 900;
             Content.RootDirectory = "Content";
+            _destination = new Rectangle(0, 0, 1600, 900);
             IsMouseVisible = true;
             gameManager = new();
         }
@@ -29,7 +33,7 @@ namespace MonterHunter
             // TODO: Add your initialization logic here
             base.Initialize();
             Globals.InitContent(Content);
-            renderTarget = new RenderTarget2D(Globals.graphicsDevice, 400, 255);
+            renderTarget = new RenderTarget2D(Globals.graphicsDevice, 400, 225);
             gameManager.Init();
         }
 
@@ -43,8 +47,9 @@ namespace MonterHunter
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (InputManager.GetAction() == Action.ESCAPE) {
+                StateManager.RemoveState();
+        }
             gameManager.Update();
             // TODO: Add your update logic here
             InputManager.Update();
@@ -63,7 +68,7 @@ namespace MonterHunter
             Globals.graphicsDevice.SetRenderTarget(null);
             //upscaleing
             Globals.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-            Globals.spriteBatch.Draw(renderTarget, new Rectangle(0, 0, 1600, 900), Color.White);
+            Globals.spriteBatch.Draw(renderTarget,_destination , Color.White);
             Globals.spriteBatch.End();
 
             base.Draw(gameTime);
