@@ -13,6 +13,8 @@ namespace MonterHunter.Engine
         public static GraphicsDevice graphicsDevice;
         public static float time;
         public static MouseState mouseState;
+        public static int windowHeight;
+        public static int windowWidth;
         public static void InitContent(ContentManager gameContent)
         {
             content = gameContent;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonterHunter.Engine;
 using MonterHunter.Engine.Components;
 using MonterHunter.Engine.Managers;
@@ -9,21 +8,22 @@ namespace MonterHunter
 {
     public class MonsterHunter : Game
     {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private GameManager gameManager;
-        private Rectangle _destination;
+        private readonly GameManager gameManager;
         public RenderTarget2D renderTarget;
 
 
 
         public MonsterHunter()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 1600;
-            _graphics.PreferredBackBufferHeight = 900;
+            _graphics = new(this)
+            {
+                PreferredBackBufferWidth = 1600,
+                PreferredBackBufferHeight = 900
+            };
             Content.RootDirectory = "Content";
-            _destination = new Rectangle(0, 0, 1600, 900);
+            
             IsMouseVisible = true;
             gameManager = new();
         }
@@ -32,6 +32,9 @@ namespace MonterHunter
         {
             // TODO: Add your initialization logic here
             base.Initialize();
+            Globals.windowHeight = _graphics.PreferredBackBufferHeight;
+            Globals.windowWidth = _graphics.PreferredBackBufferWidth;
+            
             Globals.InitContent(Content);
             renderTarget = new RenderTarget2D(Globals.graphicsDevice, 400, 225);
             gameManager.Init();
@@ -42,34 +45,19 @@ namespace MonterHunter
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Globals.spriteBatch = _spriteBatch;
             Globals.graphicsDevice = GraphicsDevice;
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
-        {
-            if (InputManager.GetAction() == Action.ESCAPE) {
-                StateManager.RemoveState();
-        }
+        { 
             gameManager.Update();
-            // TODO: Add your update logic here
-            InputManager.Update();
             Globals.Update(gameTime);
             base.Update(gameTime);
         }
-
         protected override void Draw(GameTime gameTime)
         {
-            //drawing
-            Globals.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-            Globals.graphicsDevice.SetRenderTarget(renderTarget);
-            Globals.graphicsDevice.Clear(Color.LightCoral);
+            
             gameManager.Draw();
-            Globals.spriteBatch.End();
-            Globals.graphicsDevice.SetRenderTarget(null);
-            //upscaleing
-            Globals.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-            Globals.spriteBatch.Draw(renderTarget,_destination , Color.White);
-            Globals.spriteBatch.End();
+            
 
             base.Draw(gameTime);
         }

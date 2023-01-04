@@ -24,7 +24,7 @@ namespace MonterHunter.Engine
         }
         public void Init()
         {
-            StateManager.AddState(new MainMenu());
+            StateManager.AddState(new MainMenu(400,225));
         }
         public void Update()
         {

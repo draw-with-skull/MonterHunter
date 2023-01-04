@@ -41,6 +41,7 @@ namespace MonterHunter.Entity
 
         public override void Update()
         {
+            InputManager.Update();
             _speed = 100f;
             if(InputManager.GetAction()== Action.RUN)
             {

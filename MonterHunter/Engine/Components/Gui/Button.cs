@@ -3,11 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonterHunter.Engine.Components.Bases;
 using MonterHunter.Engine.Managers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MonterHunter.Engine.Components.Gui
 {
@@ -17,14 +13,17 @@ namespace MonterHunter.Engine.Components.Gui
         private Rectangle _destination;
         private Rectangle _boundingBox;
         private bool _clicked;
-        private Color color;
+        private Color _color;
+        private readonly float _scaleing;
 
-        
 
-        public Button(string path, Point position)
+        // constructors
+        public Button(string path, Point position, float scaling)
         {
+            _scaleing = scaling;
             _texture = Globals.content.Load<Texture2D>(path);
             _clicked = false;
+
             if (_texture != null)
             {
                 _destination = new Rectangle(position, new Point(_texture.Width, _texture.Height));
@@ -33,8 +32,9 @@ namespace MonterHunter.Engine.Components.Gui
             
         }
 
-        public Button(string path, int positionX,int positionY)
+        public Button(string path, int positionX,int positionY,float scaling)
         {
+            _scaleing = scaling;
             _texture = Globals.content.Load<Texture2D>(path);
             if(_texture != null)
             {
@@ -42,20 +42,20 @@ namespace MonterHunter.Engine.Components.Gui
                 UpdateBoundingBox();
             }
         }
-        public override void Draw()
-        {
-            color = Color.White;
-            if(_texture != null)
-            {
-                Globals.spriteBatch.Draw(_texture, _destination, color);
-            }
-        }
-
         public override void Init()
         {
             // no use here
         }
-
+        //screen drawing to the screen 
+        public override void Draw()
+        {
+            _color = Color.White;
+            if(_texture != null)
+            {
+                Globals.spriteBatch.Draw(_texture, _destination, _color);
+            }
+        }
+        // game logic
         public override bool IsClicked()
         {
             return _clicked;
@@ -64,38 +64,50 @@ namespace MonterHunter.Engine.Components.Gui
         public override void Update()
         {
             UpdateMouseClickState();
-
-
-        }
-        
-        public void CentreToRectangle(Rectangle source)
-        {
-            _destination.X = source.X + ((source.Width - _destination.Width) / 2);
-            _destination.Y = source.Y + ((source.Height - _destination.Height) / 2);
-            UpdateBoundingBox();
-            
         }
         private void UpdateMouseClickState()
         {
             if (_boundingBox.Contains(Globals.mouseState.Position))
             {
-                if (InputManager.GetAction() == Action.LEFTCLICK)
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
                     _clicked = true;
                 }
             }
         }
+        internal void Reset()
+        {
+            //call because of bugs
+            _clicked = false;
+        }
+        //because of mouse position because of scaleing
         private void UpdateBoundingBox()
         {
             //because of screen scaleing;
-            _boundingBox.X = _destination.X * 4;
-            _boundingBox.Y = _destination.Y * 4;
-            _boundingBox.Width = _texture.Width * 4;
-            _boundingBox.Height = _texture.Height * 4;
+            _boundingBox.X = (int)(_destination.X * _scaleing);
+            _boundingBox.Y = (int)(_destination.Y * _scaleing);
+            _boundingBox.Width = (int)(_texture.Width * _scaleing);
+            _boundingBox.Height = (int)(_texture.Height * _scaleing);
         }
-        internal void Reset()
+        //position for the button
+        public void CentreToRectangle(Rectangle source)
         {
-            _clicked = false;
+            _destination.X = source.X + ((source.Width - _destination.Width) / 2);
+            _destination.Y = source.Y + ((source.Height - _destination.Height) / 2);
+            UpdateBoundingBox();
         }
+        
+        public void UnderButton(Rectangle source, int margin)
+        {
+            _destination.X = source.X + ((source.Width - _destination.Width) / 2);
+            _destination.Y = source.Y + ((source.Height - _destination.Height) / 2);
+            _destination.Y +=source.Height + margin;
+            UpdateBoundingBox();
+        }
+        //getters
+        public Rectangle Bounds() {
+            return _destination;
+        }
+        
     }
 }
