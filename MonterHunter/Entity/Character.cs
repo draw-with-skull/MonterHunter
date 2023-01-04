@@ -16,7 +16,8 @@ namespace MonterHunter.Entity
     public class Character : BaseEntity
     {
         private readonly Texture2D _texture;
-        private Vector2 _position; 
+        private Vector2 _position;
+        private readonly InputManager _inputManager;
         
         private float _speed = 0;
         private readonly AnimationManager _animations;
@@ -25,6 +26,7 @@ namespace MonterHunter.Entity
             _position = Vector2.Zero;
             _texture = Globals.content.Load<Texture2D>(spriteSheetPath);
             _animations = new();
+            _inputManager = new();
 
             _animations.SetDefault(ref _texture, 75f, 48, 48);
             _animations.AddAnimation(Action.IDLE, 4, 0, false);
@@ -41,16 +43,15 @@ namespace MonterHunter.Entity
 
         public override void Update()
         {
-            InputManager.Update();
+            _inputManager.Update();
             _speed = 100f;
-            if(InputManager.GetAction()== Action.RUN)
+            if(_inputManager.GetAction() == Action.RUN)
             {
                 _speed = 250;
             }
 
-            _position = InputManager.direction * _speed * Globals.time/1000;
-
-            _animations.Update(InputManager.GetAction(),InputManager.direction,_position);
+            _position = _inputManager.direction * _speed * Globals.time/1000;
+            _animations.Update(_inputManager.GetAction(), _inputManager.direction,_position);
         }
         public override void Draw()
         { 

@@ -2,14 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonterHunter.Engine;
 using MonterHunter.Engine.Components.Bases;
-using MonterHunter.Engine.Managers;
 using MonterHunter.Entity;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonterHunter.Gui
 {
@@ -57,8 +50,6 @@ namespace MonterHunter.Gui
             //bounds for right and top;
             if (_position.X > _destination.Width-_dimension.X) _destination.X = _destination.Width - (int)_dimension.X;
             if (_position.Y > _destination.Height-_dimension.Y) _destination.Y = _destination.Height - (int)_dimension.Y;
-            Debug.WriteLineIf(_position.X > _destination.Width, _destination.X);
-            Debug.WriteLineIf(_position.X > _destination.Width, _position.X);
         }
 
         protected override void LoadContent()

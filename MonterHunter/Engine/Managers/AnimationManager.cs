@@ -32,10 +32,10 @@ namespace MonterHunter.Engine.Managers
         }
         public void AddAnimation(Action key, int frameCount,int frameRow,bool continuous)
         {
-            if (_texture == null)
+            if (_texture == null || _frameTime == 0 || _frameWidth == 0 || _frameHeight == 0)
+            {
                 throw new Exception("Animation manager is not set");
-            if (_frameTime == 0|| _frameWidth == 0|| _frameHeight == 0) 
-                throw new Exception("Animation manager is not set");
+            }
 
             _animations.Add(key,new Animation(ref _texture,frameCount,_frameTime,_frameWidth,_frameHeight,frameRow, continuous));
             _key = key;

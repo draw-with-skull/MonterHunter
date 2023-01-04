@@ -4,19 +4,19 @@ using MonterHunter.Engine.Components;
 
 namespace MonterHunter.Engine.Managers
 {
-    public static class InputManager
+    public class InputManager
     {
-        private static bool _gotAction;
-        private static Action action;
-        public static Vector2 direction = Vector2.Zero;
-        private static KeyboardState keyboardState;
-        private static MouseState mouseState;
+        private bool _gotAction;
+        private Action action;
+        public Vector2 direction = Vector2.Zero;
+        private KeyboardState keyboardState;
+        private MouseState mouseState;
 
-        public static Action GetAction()
+        public  Action GetAction()
         {
             return action;
         }
-        public static void Update()
+        public  void Update()
         {
             keyboardState = Keyboard.GetState();
             mouseState = Globals.mouseState;

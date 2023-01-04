@@ -12,6 +12,7 @@ namespace MonterHunter.Engine.Components.Gui
         private readonly Texture2D _texture;
         private Rectangle _destination;
         private Rectangle _boundingBox;
+        private Point _position;
         private bool _clicked;
         private Color _color;
         private readonly float _scaleing;
@@ -42,10 +43,7 @@ namespace MonterHunter.Engine.Components.Gui
                 UpdateBoundingBox();
             }
         }
-        public override void Init()
-        {
-            // no use here
-        }
+
         //screen drawing to the screen 
         public override void Draw()
         {
@@ -104,6 +102,20 @@ namespace MonterHunter.Engine.Components.Gui
             _destination.Y +=source.Height + margin;
             UpdateBoundingBox();
         }
+        public void AboveButton(Rectangle source, int margin)
+        {
+            _destination.X = source.X + ((source.Width - _destination.Width) / 2);
+            _destination.Y = source.Y + ((source.Height - _destination.Height) / 2);
+            _destination.Y -= source.Height + margin;
+            UpdateBoundingBox();
+        }
+
+        public void LeftOfButton(Rectangle source, int margin)
+        {
+            _destination.X = source.X + ((source.Width - _destination.Width) / 2);
+        }
+
+
         //getters
         public Rectangle Bounds() {
             return _destination;
