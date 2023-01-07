@@ -3,25 +3,19 @@ using Microsoft.Xna.Framework.Graphics;
 using MonterHunter.Engine;
 using MonterHunter.Engine.Components.Bases;
 using MonterHunter.Engine.Managers;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Action = MonterHunter.Engine.Components.Action;
 
 namespace MonterHunter.Entity
 {
-    public class Character : BaseEntity
+    public class CharacterSide : BaseEntity
     {
         private readonly Texture2D _texture;
         private Vector2 _position;
-        private readonly InputManager _inputManager;
+        private readonly InputManagerPlayerSide _inputManager;
         
-        private float _speed = 0;
+        private float _speed;
         private readonly AnimationManager _animations;
-        public Character(string spriteSheetPath)
+        public CharacterSide(string spriteSheetPath)
         {
             _position = Vector2.Zero;
             _texture = Globals.content.Load<Texture2D>(spriteSheetPath);

@@ -35,5 +35,9 @@ namespace MonterHunter.Engine.Managers
         {
             return stateStack.Count;
         }
+        public static void Exit()
+        {
+
+        }
     }
 }

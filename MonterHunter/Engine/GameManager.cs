@@ -10,7 +10,6 @@ namespace MonterHunter.Engine
         public GameManager( )
         {
            
-
         }
         public void Init()
         {
@@ -24,7 +23,6 @@ namespace MonterHunter.Engine
         public void Draw()
         {
             StateManager.GetState().Draw();
-            //ch.Draw();
         }
 
 

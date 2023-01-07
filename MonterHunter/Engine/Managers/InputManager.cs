@@ -4,7 +4,7 @@ using MonterHunter.Engine.Components;
 
 namespace MonterHunter.Engine.Managers
 {
-    public class InputManager
+    public class InputManagerPlayerSide
     {
         private bool _gotAction;
         private Action action;
